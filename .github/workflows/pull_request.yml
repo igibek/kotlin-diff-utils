@@ -31,7 +31,7 @@ jobs:
       - name: Change package version
         uses: eskatos/gradle-command-action@v1
         with:
-          arguments: :updateVersion
+          arguments: updateVersion
 
       - name: Build
         uses: eskatos/gradle-command-action@v1
