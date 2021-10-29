@@ -1,8 +1,6 @@
 name: Pull Request
 
 on:
-  push:
-    branches: [ update_kotlin_to_java_diff_utils_4_11 ]
   pull_request:
     branches: [ master ]
 
