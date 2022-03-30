@@ -6,8 +6,8 @@ version = project.property("version") as String
 plugins {
     `maven-publish`
     signing
-    kotlin("native.cocoapods") version "1.5.30"
-    kotlin("multiplatform") version "1.5.30"
+    kotlin("multiplatform") version "1.5.32"
+    kotlin("native.cocoapods") version "1.5.32"
 }
 
 repositories {
@@ -19,7 +19,9 @@ repositories {
 kotlin {
     jvm {
         compilations.all {
-            kotlinOptions.jvmTarget = "1.8"
+            kotlinOptions {
+                jvmTarget = "1.8"
+            }
         }
         testRuns["test"].executionTask.configure { useJUnit() }
     }
@@ -36,15 +38,27 @@ kotlin {
         }
     }
 
-    iosArm64()
-    iosX64()
+//    iosArm64()
+//    iosX64()
 
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation("org.jetbrains.kotlin:kotlin-stdlib")
             }
         }
-        val jsMain by getting
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
+            }
+        }
+        val jsMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlin:kotlin-stdlib-js")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:${project.property("kotlinx-coroutines.version")}")
+            }
+        }
 
         val jvmMain by getting {
             dependencies {
@@ -52,8 +66,10 @@ kotlin {
         }
         val jvmTest by getting {
             dependencies {
+                implementation(kotlin("test-junit"))
                 implementation("junit:junit:4.12")
                 implementation("org.assertj:assertj-core:3.11.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${project.property("kotlinx-coroutines.version")}")
             }
         }
     }
@@ -101,8 +117,7 @@ tasks {
 
     val updateVersion by registering(Exec::class) {
         commandLine("npm", "--allow-same-version", "--no-git-tag-version", "--prefix", projectDir, "version",
-            (project.property("version") as String).replace("""[_;\",\[\]]""".toRegex(), "")
-        )
+            (project.property("version") as String).replace("""[_;\",\[\]]""".toRegex(), ""))
     }
 
     val prepareForGithubNpmPublish by registering(Copy::class) {
@@ -119,7 +134,7 @@ val javadocJar by tasks.creating(Jar::class) {
     archiveClassifier.value("javadoc")
 }
 
-var shouldSign = true
+var shouldSign = false
 
 tasks.withType<Sign>().configureEach {
     onlyIf { shouldSign }
