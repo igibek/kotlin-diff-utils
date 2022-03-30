@@ -1,8 +1,6 @@
 name: Pull Request
 
-on:
-  pull_request:
-    branches: [ master ]
+on: pull_request
 
 jobs:
   build:
@@ -29,8 +27,7 @@ jobs:
       - name: Change package version
         uses: eskatos/gradle-command-action@v1
         with:
-          arguments: :updateVersion
-
+          arguments: updateVersion
       - name: Build
         uses: eskatos/gradle-command-action@v1
         with:
@@ -56,7 +53,11 @@ jobs:
         run: npm config set //npm.pkg.github.com/:_authToken=$token
         env:
           token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Setup package name
+        uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: prepareForGithubNpmPublish
       - name: Publish npm
         uses: eskatos/gradle-command-action@v1
         with:
-          arguments: prepareForGithubNpmPublish publishToNpm
+          arguments: publishToNpm
