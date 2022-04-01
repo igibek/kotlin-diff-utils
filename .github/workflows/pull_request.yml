@@ -12,36 +12,47 @@ jobs:
         with:
           java-version: 1.8
 
+      - name: Short SHA
+        env:
+          COMMIT_SHA: ${{github.event.pull_request.head.sha}}
+        run: echo "short_sha=${COMMIT_SHA::7}" >> $GITHUB_ENV
+        
       - name: Read version
         id: read_version
         uses: reedyuk/read-properties@v1.0.0
         with:
           path: 'gradle.properties'
           property: 'version'
+          
       - name: Update version
         uses: reedyuk/write-properties@v1.0.0
         with:
           path: 'gradle.properties'
           property: 'version'
-          value: "${{ steps.read_version.outputs.value }}-${{ github.head_ref }}"
+          value: "${{ steps.read_version.outputs.value }}-${{ github.head_ref }}-${{ env.short_sha }}"
+          
       - name: Change package version
         uses: eskatos/gradle-command-action@v1
         with:
           arguments: updateVersion
+          
       - name: Build
         uses: eskatos/gradle-command-action@v1
         with:
           arguments: build
+          
       - name: Test
         uses: eskatos/gradle-command-action@v1
         with:
           arguments: jvmTest
+          
       - name: Test Report
         uses: scacap/action-surefire-report@v1
         if: always()
         with:
           report_paths: "build/test-results/jvmTest/*.xml"
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          
       - name: Publish
         uses: eskatos/gradle-command-action@v1
         with:
@@ -49,14 +60,17 @@ jobs:
         env:
           TOKEN: ${{ secrets.AUTO_TOKEN }}
           USERNAME: ${{ secrets.AUTO_USERNAME }}
+          
       - name: Setup NPM
         run: npm config set //npm.pkg.github.com/:_authToken=$token
         env:
           token: ${{ secrets.GITHUB_TOKEN }}
+          
       - name: Setup package name
         uses: eskatos/gradle-command-action@v1
         with:
           arguments: prepareForGithubNpmPublish
+          
       - name: Publish npm
         uses: eskatos/gradle-command-action@v1
         with:
