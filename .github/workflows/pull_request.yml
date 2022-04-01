@@ -71,7 +71,17 @@ jobs:
         with:
           arguments: prepareForGithubNpmPublish
           
-      - name: Publish npm
+      - name: Publish to npm
+        uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: publishToNpm
+          
+      - name: Setup package name for legacy
+        uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: prepareForGithubNpmPublishLegacy
+
+      - name: Publish legacy to npm
         uses: eskatos/gradle-command-action@v1
         with:
           arguments: publishToNpm
