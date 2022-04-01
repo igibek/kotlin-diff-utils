@@ -124,7 +124,18 @@ tasks {
         from.writeText(
             from.readText()
                 .replace("https://registry.npmjs.org/","https://npm.pkg.github.com/")
-                .replace("\"name\": \"kotlin-diff-utils-js-legacy\",", "\"name\": \"@gitliveapp/kotlin-diff-utils-js-legacy\",")
+                .replace("\"name\": \"kotlin-diff-utils\",", "\"name\": \"@gitliveapp/kotlin-diff-utils\",")
+                .replace("\"name\": \"@gitliveapp/kotlin-diff-utils-js-legacy\",", "\"name\": \"@gitliveapp/kotlin-diff-utils\",")
+        )
+    }
+
+    val prepareForGithubNpmPublishLegacy by registering(Copy::class) {
+        val from = file("package.json")
+        from.writeText(
+            from.readText()
+                .replace("https://registry.npmjs.org/","https://npm.pkg.github.com/")
+                .replace("\"name\": \"kotlin-diff-utils\",", "\"name\": \"@gitliveapp/kotlin-diff-utils-js-legacy\",")
+                .replace("\"name\": \"@gitliveapp/kotlin-diff-utils\",", "\"name\": \"@gitliveapp/kotlin-diff-utils-js-legacy\",")
         )
     }
 }
