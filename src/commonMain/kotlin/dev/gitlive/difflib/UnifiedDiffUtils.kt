@@ -176,9 +176,7 @@ object UnifiedDiffUtils {
                     // position.
                     // And if it is, add it to the current set
                     val nextDelta = patchDeltas[i]
-                    if (position + delta.source.size() + contextSize >= nextDelta
-                            .source.position - contextSize
-                    ) {
+                    if (position + delta.source.size() + contextSize >= nextDelta.source.position - contextSize) {
                         deltas.add(nextDelta)
                     } else {
                         // if it isn't, output the current set,
@@ -248,7 +246,6 @@ object UnifiedDiffUtils {
         // output the context before the first Delta
         line = contextStart
         while (line < curDelta.source.position) {
-            //
             buffer.add(" " + origLines[line])
             origTotal++
             revTotal++
@@ -262,13 +259,9 @@ object UnifiedDiffUtils {
         var deltaIndex = 1
         while (deltaIndex < deltas.size) { // for each of the other Deltas
             val nextDelta = deltas[deltaIndex]
-            val intermediateStart = (curDelta.source.position
-                    + curDelta.source.lines.size)
+            val intermediateStart = (curDelta.source.position + curDelta.source.lines.size)
             line = intermediateStart
-            while (line < nextDelta.source
-                    .position
-            ) {
-
+            while (line < nextDelta.source.position) {
                 // output the code between the last Delta and this one
                 buffer.add(" " + origLines[line])
                 origTotal++
@@ -283,8 +276,7 @@ object UnifiedDiffUtils {
         }
 
         // Now output the post-Delta context code, clamping the end of the file
-        contextStart = (curDelta.source.position
-                + curDelta.source.lines.size)
+        contextStart = (curDelta.source.position + curDelta.source.lines.size)
         line = contextStart
         while (line < contextStart + contextSize
             && line < origLines.size
@@ -297,17 +289,17 @@ object UnifiedDiffUtils {
 
         // Create and insert the block header, conforming to the Unified Diff
         // standard
-        val header = StringBuilder()
-        header.append("@@ -")
-        header.append(origStart)
-        header.append(",")
-        header.append(origTotal)
-        header.append(" +")
-        header.append(revStart)
-        header.append(",")
-        header.append(revTotal)
-        header.append(" @@")
-        buffer.add(0, header.toString())
+//        val header = StringBuilder()
+//        header.append("@@ -")
+//        header.append(origStart)
+//        header.append(",")
+//        header.append(origTotal)
+//        header.append(" +")
+//        header.append(revStart)
+//        header.append(",")
+//        header.append(revTotal)
+//        header.append(" @@")
+        buffer.add(0, "@@ -$origStart,$origTotal +$revStart,$revTotal @@")
         return buffer
     }
 
