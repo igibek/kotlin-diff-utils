@@ -287,18 +287,7 @@ object UnifiedDiffUtils {
             line++
         }
 
-        // Create and insert the block header, conforming to the Unified Diff
-        // standard
-//        val header = StringBuilder()
-//        header.append("@@ -")
-//        header.append(origStart)
-//        header.append(",")
-//        header.append(origTotal)
-//        header.append(" +")
-//        header.append(revStart)
-//        header.append(",")
-//        header.append(revTotal)
-//        header.append(" @@")
+        // Create and insert the block header, conforming to the Unified Diff standard
         buffer.add(0, "@@ -$origStart,$origTotal +$revStart,$revTotal @@")
         return buffer
     }
