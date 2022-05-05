@@ -6,7 +6,7 @@ version = project.property("version") as String
 plugins {
     `maven-publish`
     signing
-    kotlin("multiplatform") version "1.5.32"
+    kotlin("multiplatform") version "1.6.21"
 }
 
 repositories {
