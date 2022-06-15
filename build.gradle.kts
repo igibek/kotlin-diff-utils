@@ -69,6 +69,7 @@ kotlin {
                 implementation("junit:junit:4.12")
                 implementation("org.assertj:assertj-core:3.11.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${project.property("kotlinx-coroutines.version")}")
+                implementation("org.jetbrains.kotlin:atomicfu:1.6.21") // Temp fix waiting for coroutines 1.6.3 [https://github.com/Kotlin/kotlinx.coroutines/issues/3305]
             }
         }
     }
