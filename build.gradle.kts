@@ -44,7 +44,6 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlin:kotlin-stdlib")
-                implementation("org.jetbrains.kotlin:atomicfu:1.6.21") // Temp fix waiting for coroutines 1.6.3 [https://github.com/Kotlin/kotlinx.coroutines/issues/3305]
             }
         }
         val commonTest by getting {
