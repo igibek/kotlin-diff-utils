@@ -6,7 +6,7 @@ version = project.property("version") as String
 plugins {
     `maven-publish`
     signing
-    kotlin("multiplatform") version "1.5.32"
+    kotlin("multiplatform") version "1.6.10"
 }
 
 repositories {
@@ -19,7 +19,7 @@ kotlin {
     jvm {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = JavaVersion.VERSION_11.toString()
             }
         }
         testRuns["test"].executionTask.configure { useJUnit() }
