@@ -1,5 +1,5 @@
 # kotlin-diff-utils
-
+  
 ## Status
 
 [![Build Status](https://travis-ci.org/java-diff-utils/java-diff-utils.svg?branch=master)](https://travis-ci.org/java-diff-utils/java-diff-utils)
